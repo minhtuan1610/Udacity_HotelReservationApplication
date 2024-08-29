@@ -3,7 +3,10 @@ package service.reservation;
 import model.customer.Customer;
 import model.reservation.Reservation;
 import model.room.IRoom;
+import model.room.Room;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ReservationService {
@@ -66,8 +69,23 @@ public class ReservationService {
 	 * @return all the available rooms.
 	 */
 	public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
+		List<IRoom> availableRooms = new ArrayList<>();
+		// Get all the booked rooms
 		Collection<Reservation> reservations = getAllReservations();
-		return null;
+		// Check the booked rooms in the given interval time
+		Set<IRoom> reservedRooms = new HashSet<>();
+		for (Reservation r : reservations) {
+			try {
+				if (RESERVATION_SERVICE.isValidationDate(r, checkInDate, checkOutDate)) {
+				}
+
+			} catch (ParseException e) {
+				System.out.println("Date is not formatted");
+			}
+		}
+
+
+		return availableRooms;
 	}
 
 	/**
@@ -96,8 +114,24 @@ public class ReservationService {
             }
         */
 		reservationList.values().forEach(reservations::addAll);
-
-
 		return reservations;
+	}
+
+	private boolean isValidationDate(Reservation reservation, Date checkInDate, Date checkOutDate) throws ParseException {
+		boolean isValid = false;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String cid = simpleDateFormat.format(checkInDate);
+		String cod = simpleDateFormat.format(checkOutDate);
+		String rCid = simpleDateFormat.format(reservation.getCheckInDate());
+		String rCod = simpleDateFormat.format(reservation.getCheckOutDate());
+		Date checkIn = simpleDateFormat.parse(cid);
+		Date checkOut = simpleDateFormat.parse(cod);
+		Date rIn = simpleDateFormat.parse(rCid);
+		Date rOut = simpleDateFormat.parse(rCod);
+		if (rIn.before(checkIn) && rOut.after(checkOut)) {
+			isValid = true;
+		}
+
+		return isValid;
 	}
 }
