@@ -4,6 +4,7 @@ import model.customer.Customer;
 import model.reservation.Reservation;
 import model.room.IRoom;
 import service.customers.CustomerService;
+import service.reservation.ReservationService;
 
 import java.util.Collection;
 import java.util.Date;
@@ -12,6 +13,7 @@ public class HotelResource {
     private static final HotelResource HOTEL_RESOURCE = new HotelResource();
 
     private final CustomerService customerService = CustomerService.getCustomerServiceInstance();
+    private final ReservationService reservationService = ReservationService.getReservationServiceInstance();
 
     private HotelResource() {
     }
