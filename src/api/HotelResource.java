@@ -27,21 +27,24 @@ public class HotelResource {
     }
 
     public void createCustomer(String email, String firstName, String lastName) {
+        customerService.addCustomer(email, firstName, lastName);
     }
 
     public IRoom getRoom(String roomNumber) {
-        return null;
+        return reservationService.getARoom(roomNumber);
     }
 
     public Reservation bookARoom(String customerEmail, IRoom room, Date checkInDate, Date checkOutDate) {
-        return null;
+        Customer cus = getCustomer(customerEmail);
+        return reservationService.reserveARoom(cus, room, checkInDate, checkOutDate);
     }
 
     public Collection<Reservation> getCustomerReservations(String customerEmail) {
-        return null;
+        Customer cus = getCustomer(customerEmail);
+        return reservationService.getCustomersReservation(cus);
     }
 
     public Collection<IRoom> findARoom(Date checkIn, Date checkOut) {
-        return null;
+        return reservationService.findRooms(checkIn, checkOut);
     }
 }

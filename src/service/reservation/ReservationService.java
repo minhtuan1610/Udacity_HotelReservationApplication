@@ -123,6 +123,10 @@ public class ReservationService {
         return reservations;
     }
 
+    public Collection<IRoom> getAllRooms() {
+        return roomList.values();
+    }
+
     private boolean isValidationDate(Reservation reservation, Date checkInDate, Date checkOutDate) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String cid = simpleDateFormat.format(checkInDate);
