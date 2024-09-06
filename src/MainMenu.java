@@ -1,3 +1,4 @@
+import api.DataInput;
 import api.HotelResource;
 
 import java.util.Scanner;
@@ -5,6 +6,7 @@ import java.util.Scanner;
 public class MainMenu {
     private static final HotelResource hotelResource = HotelResource.getHotelResourceInstance();
     private static int choice = -1;
+    private final DataInput INPUT = DataInput.getDataInput();
 
     public static void mainMenu() {
         while (choice != 0) {
@@ -13,6 +15,12 @@ public class MainMenu {
             choice = input.nextInt();
             switch (choice) {
                 case 1:
+                    // Find rooms
+                    System.out.println("Enter CheckIn Date mm/dd/yyyy. Example: 02/01/2024");
+
+                    hotelResource.findARoom(checkIn, checkOut);
+                    // Reserve a room
+                    hotelResource.bookARoom(email, room, checkIn, checkOut);
                     break;
                 case 2:
                     break;
