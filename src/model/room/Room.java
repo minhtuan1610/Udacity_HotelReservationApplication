@@ -47,7 +47,7 @@ public class Room implements IRoom {
 	 */
 	@Override
 	public boolean isFree() {
-		return false;
+		return price.equals(0.0);
 	}
 
 	@Override

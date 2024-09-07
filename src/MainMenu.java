@@ -6,7 +6,7 @@ import java.util.Date;
 
 
 public class MainMenu {
-	private static final HotelResource hotelResource = HotelResource.getHotelResourceInstance();
+	private static final HotelResource HOTEL_RESOURCE = HotelResource.getHotelResourceInstance();
 	private static final DataInput INPUT = DataInput.getDataInput();
 	private static int choice = -1;
 
@@ -15,7 +15,7 @@ public class MainMenu {
 			displayMainMenu();
 			choice = INPUT.getIntInput();
 			switch (choice) {
-				case 1:
+				case 1 -> {
 					// Find rooms
 					Date checkIn = null;
 					Date checkOut = null;
@@ -28,7 +28,7 @@ public class MainMenu {
 						System.out.println("Wrong format date");
 						e.printStackTrace();
 					}
-					hotelResource.findARoom(checkIn, checkOut);
+					HOTEL_RESOURCE.findARoom(checkIn, checkOut);
 					// Reserve a room
 					System.out.println("Would you like to book a room? (Please type y/n)");
 					String text = INPUT.getStringInput();
@@ -39,29 +39,25 @@ public class MainMenu {
 					if (text.equalsIgnoreCase("y")) {
 						String email = INPUT.getStringInput();
 						System.out.println("Choose room number:");
-						hotelResource.bookARoom(email, hotelResource.getRoom(INPUT.getStringInput()), checkIn, checkOut);
+						HOTEL_RESOURCE.bookARoom(email, HOTEL_RESOURCE.getRoom(INPUT.getStringInput()), checkIn, checkOut);
 					}
-					break;
-				case 2:
+				}
+				case 2 -> {
 					// See my reservations
 					String eCus = INPUT.getStringInput();
-					hotelResource.getCustomerReservations(eCus);
-					break;
-				case 3:
+					HOTEL_RESOURCE.getCustomerReservations(eCus);
+				}
+				case 3 -> {
 					System.out.println("Enter email formatted as something@domain.com");
 					String emailCus = INPUT.getStringInput();
 					System.out.println("What is your first name?");
 					String firstName = INPUT.getStringInput();
 					System.out.println("What is your last name?");
 					String lastName = INPUT.getStringInput();
-					hotelResource.createCustomer(emailCus, firstName, lastName);
-					break;
-				case 4:
-					AdminMenu.adminMenu();
-					break;
-				case 5:
-					System.exit(0);
-					break;
+					HOTEL_RESOURCE.createCustomer(emailCus, firstName, lastName);
+				}
+				case 4 -> AdminMenu.adminMenu();
+				case 5 -> System.exit(0);
 			}
 		}
 	}
