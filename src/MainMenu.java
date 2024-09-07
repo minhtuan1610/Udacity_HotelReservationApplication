@@ -32,11 +32,12 @@ public class MainMenu {
 					// Reserve a room
 					System.out.println("Would you like to book a room? (Please type y/n)");
 					String text = INPUT.getStringInput();
-					while (!text.equalsIgnoreCase("y") || !text.equalsIgnoreCase("n")) {
+					while (!text.equalsIgnoreCase("y") && !text.equalsIgnoreCase("n")) {
 						System.out.println("Would you like to book a room? (Please type y/n)");
 						text = INPUT.getStringInput();
 					}
 					if (text.equalsIgnoreCase("y")) {
+						System.out.println("Enter your email:");
 						String email = INPUT.getStringInput();
 						System.out.println("Choose room number:");
 						HOTEL_RESOURCE.bookARoom(email, HOTEL_RESOURCE.getRoom(INPUT.getStringInput()), checkIn, checkOut);

@@ -27,6 +27,7 @@ public class CustomerService {
 	}
 
 	public Collection<Customer> getAllCustomer() {
+		customerList.values().forEach(System.out::println);
 		return customerList.values();
 	}
 

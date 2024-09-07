@@ -23,31 +23,36 @@ public class AdminMenu {
 				case 2 -> ADMIN_RESOURCE.getAllRooms(); // See all rooms
 				case 3 -> ADMIN_RESOURCE.displayAllReservations(); //See all Reservations
 				case 4 -> {
-					System.out.println("Enter room number");
-					String rNo = INPUT.getStringInput();
-					System.out.println("Enter price per night");
-					Double rPri = INPUT.getDoubleInput();
-					System.out.println("Enter room type: 1 for single bed, 2 for double bed");
-					String rType = INPUT.getStringInput();
-					while (!rType.equalsIgnoreCase("1") || !rType.equalsIgnoreCase("2")) {
+					do {
+						System.out.println("Enter room number");
+						String rNo = INPUT.getStringInput();
+						System.out.println("Enter price per night");
+						Double rPri = INPUT.getDoubleInput();
 						System.out.println("Enter room type: 1 for single bed, 2 for double bed");
-						rType = INPUT.getStringInput();
-					}
-					if (rType.equalsIgnoreCase("1")) {
-						rooms.add(new Room(rNo, rPri, RoomType.SINGLE));
-					} else {
-						rooms.add(new Room(rNo, rPri, RoomType.DOUBLE));
-					}
-					ADMIN_RESOURCE.addRoom(rooms);
-					System.out.println("Would you like to add another room? (Please type y/n)");
-					String text = INPUT.getStringInput();
-					while (!text.equalsIgnoreCase("y") || !text.equalsIgnoreCase("n")) {
+						String rType = INPUT.getStringInput();
+						while (!rType.equalsIgnoreCase("1") && !rType.equalsIgnoreCase("2")) {
+							System.out.println("Type: 1 for single bed, 2 for double bed");
+							rType = INPUT.getStringInput();
+						}
+						if (rType.equalsIgnoreCase("1")) {
+							rooms.add(new Room(rNo, rPri, RoomType.SINGLE));
+						} else {
+							rooms.add(new Room(rNo, rPri, RoomType.DOUBLE));
+						}
+						ADMIN_RESOURCE.addRoom(rooms);
 						System.out.println("Would you like to add another room? (Please type y/n)");
-						text = INPUT.getStringInput();
-					}
-					if (text.equalsIgnoreCase("y")) {
-						choiceAdmin = 4;
-					}
+						String text = INPUT.getStringInput();
+						while (!text.equalsIgnoreCase("y") && !text.equalsIgnoreCase("n")) {
+							System.out.println("Would you like to add another room? (Please type y/n)");
+							text = INPUT.getStringInput();
+						}
+						if (text.equalsIgnoreCase("y")) {
+							choiceAdmin = 4;
+						} else {
+							choiceAdmin = -1;
+						}
+					} while (choiceAdmin == 4);
+
 				}
 				case 5 -> MainMenu.mainMenu();
 			}
