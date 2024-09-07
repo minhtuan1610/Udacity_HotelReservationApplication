@@ -1,37 +1,54 @@
 import api.DataInput;
 import api.HotelResource;
 
-import java.util.Scanner;
+import java.text.ParseException;
+import java.util.Date;
+
 
 public class MainMenu {
     private static final HotelResource hotelResource = HotelResource.getHotelResourceInstance();
+    private static final DataInput INPUT = DataInput.getDataInput();
     private static int choice = -1;
-    private final DataInput INPUT = DataInput.getDataInput();
 
     public static void mainMenu() {
         while (choice != 0) {
             displayMainMenu();
-            Scanner input = new Scanner(System.in);
-            choice = input.nextInt();
+            choice = INPUT.getIntInput();
             switch (choice) {
                 case 1:
                     // Find rooms
-                    System.out.println("Enter CheckIn Date mm/dd/yyyy. Example: 02/01/2024");
-
+                    Date checkIn = null;
+                    Date checkOut = null;
+                    try {
+                        System.out.println("Enter CheckIn Date dd/MM/yyyy. Example: 02/01/2024");
+                        checkIn = INPUT.getDateInput();
+                        System.out.println("Enter CheckOut Date dd/MM/yyyy. Example: 02/01/2024");
+                        checkOut = INPUT.getDateInput();
+                    } catch (ParseException e) {
+                        System.out.println("Wrong format date");
+                        e.printStackTrace();
+                    }
                     hotelResource.findARoom(checkIn, checkOut);
                     // Reserve a room
-                    hotelResource.bookARoom(email, room, checkIn, checkOut);
+                    System.out.println("Would you like to book a room? (Please type y/n)");
+                    String text = INPUT.getStringInput().toLowerCase();
+                    while (text.equals("y") || text.equals("n")) {
+                        System.out.println("good");
+                    }
+                    String email = INPUT.getStringInput();
+                    System.out.println("Choose room number:");
+                    hotelResource.bookARoom(email, hotelResource.getRoom(INPUT.getStringInput()), checkIn, checkOut);
                     break;
                 case 2:
                     break;
                 case 3:
                     System.out.println("Enter email formatted as something@domain.com");
-                    String email = input.nextLine();
+                    String emailCus = INPUT.getStringInput();
                     System.out.println("What is your first name?");
-                    String firstName = input.nextLine();
+                    String firstName = INPUT.getStringInput();
                     System.out.println("What is your last name?");
-                    String lastName = input.nextLine();
-                    hotelResource.createCustomer(email, firstName, lastName);
+                    String lastName = INPUT.getStringInput();
+                    hotelResource.createCustomer(emailCus, firstName, lastName);
                     break;
                 case 4:
                     AdminMenu.adminMenu();

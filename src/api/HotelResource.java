@@ -14,6 +14,8 @@ public class HotelResource {
 
     private final CustomerService customerService = CustomerService.getCustomerServiceInstance();
     private final ReservationService reservationService = ReservationService.getReservationServiceInstance();
+    private Date checkIn;
+    private Date checkOut;
 
     private HotelResource() {
     }
