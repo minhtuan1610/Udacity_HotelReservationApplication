@@ -99,6 +99,7 @@ public class ReservationService {
 	 * @return customer from reservation list via email
 	 */
 	public Collection<Reservation> getCustomersReservation(Customer customer) {
+		System.out.println(reservationList.get(customer.getEmail()));
 		return reservationList.get(customer.getEmail());
 	}
 

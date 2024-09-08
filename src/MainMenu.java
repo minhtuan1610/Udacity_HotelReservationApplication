@@ -45,6 +45,7 @@ public class MainMenu {
 				}
 				case 2 -> {
 					// See my reservations
+					System.out.println("Enter your email:");
 					String eCus = INPUT.getStringInput();
 					HOTEL_RESOURCE.getCustomerReservations(eCus);
 				}
