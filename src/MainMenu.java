@@ -20,14 +20,17 @@ public class MainMenu {
 					// Find rooms
 					Date checkIn = null;
 					Date checkOut = null;
-					try {
-						System.out.println("Enter CheckIn Date dd/MM/yyyy. Example: 02/01/2024");
-						checkIn = INPUT.getDateInput();
-						System.out.println("Enter CheckOut Date dd/MM/yyyy. Example: 02/01/2024");
-						checkOut = INPUT.getDateInput();
-					} catch (ParseException e) {
-						System.out.println("Wrong format date");
-						e.printStackTrace();
+					boolean valid = false;
+					while (!valid) {
+						try {
+							System.out.println("Enter CheckIn Date dd/MM/yyyy. Example: 02/01/2024");
+							checkIn = INPUT.getDateInput();
+							System.out.println("Enter CheckOut Date dd/MM/yyyy. Example: 02/01/2024");
+							checkOut = INPUT.getDateInput();
+							valid = true;
+						} catch (ParseException e) {
+							System.out.println("Wrong format date");
+						}
 					}
 					HOTEL_RESOURCE.findARoom(checkIn, checkOut);
 					// Reserve a room
@@ -43,8 +46,8 @@ public class MainMenu {
 							String email = INPUT.getStringInput();
 							System.out.println("Choose room number:");
 							HOTEL_RESOURCE.bookARoom(email, HOTEL_RESOURCE.getRoom(INPUT.getStringInput()), checkIn, checkOut);
-						} catch (IllegalArgumentException e) {
-							System.out.println("Email is invalid. Please try again. Email should be formatted as something@domain.com");
+						} catch (IllegalArgumentException | NullPointerException e) {
+							System.out.println("Email is invalid or non-exist. Please try again. Email should be formatted as something@domain.com");
 						}
 					}
 				}
@@ -54,8 +57,8 @@ public class MainMenu {
 						System.out.println("Enter your email:");
 						String eCus = INPUT.getStringInput();
 						HOTEL_RESOURCE.getCustomerReservations(eCus);
-					} catch (IllegalArgumentException e) {
-						System.out.println("Email is invalid. Please try again. Email should be formatted as something@domain.com");
+					} catch (IllegalArgumentException | NullPointerException e) {
+						System.out.println("Email is invalid or non-exist. Please try again. Email should be formatted as something@domain.com");
 					}
 				}
 				case 3 -> {

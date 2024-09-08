@@ -5,6 +5,7 @@ import model.room.Room;
 import model.room.RoomType;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,8 +27,20 @@ public class AdminMenu {
 					do {
 						System.out.println("Enter room number");
 						String rNo = INPUT.getStringInput();
-						System.out.println("Enter price per night");
-						Double rPri = INPUT.getDoubleInput();
+						boolean validPri = false;
+						Double rPri = 0.0;
+						while (!validPri) {
+							try {
+								System.out.println("Enter price per night");
+								rPri = INPUT.getDoubleInput();
+								validPri = true;
+
+							} catch (InputMismatchException e) {
+								System.out.println("Price is invalid. Please try again!");
+							}
+
+						}
+
 						System.out.println("Enter room type: 1 for single bed, 2 for double bed");
 						String rType = INPUT.getStringInput();
 						while (!rType.equalsIgnoreCase("1") && !rType.equalsIgnoreCase("2")) {
