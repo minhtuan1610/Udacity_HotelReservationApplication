@@ -1,5 +1,6 @@
 import api.DataInput;
 import api.HotelResource;
+import model.customer.Customer;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -37,26 +38,38 @@ public class MainMenu {
 						text = INPUT.getStringInput();
 					}
 					if (text.equalsIgnoreCase("y")) {
-						System.out.println("Enter your email:");
-						String email = INPUT.getStringInput();
-						System.out.println("Choose room number:");
-						HOTEL_RESOURCE.bookARoom(email, HOTEL_RESOURCE.getRoom(INPUT.getStringInput()), checkIn, checkOut);
+						try {
+							System.out.println("Enter your email:");
+							String email = INPUT.getStringInput();
+							System.out.println("Choose room number:");
+							HOTEL_RESOURCE.bookARoom(email, HOTEL_RESOURCE.getRoom(INPUT.getStringInput()), checkIn, checkOut);
+						} catch (IllegalArgumentException e) {
+							System.out.println("Email is invalid. Please try again. Email should be formatted as something@domain.com");
+						}
 					}
 				}
 				case 2 -> {
 					// See my reservations
-					System.out.println("Enter your email:");
-					String eCus = INPUT.getStringInput();
-					HOTEL_RESOURCE.getCustomerReservations(eCus);
+					try {
+						System.out.println("Enter your email:");
+						String eCus = INPUT.getStringInput();
+						HOTEL_RESOURCE.getCustomerReservations(eCus);
+					} catch (IllegalArgumentException e) {
+						System.out.println("Email is invalid. Please try again. Email should be formatted as something@domain.com");
+					}
 				}
 				case 3 -> {
-					System.out.println("Enter email formatted as something@domain.com");
-					String emailCus = INPUT.getStringInput();
-					System.out.println("What is your first name?");
-					String firstName = INPUT.getStringInput();
-					System.out.println("What is your last name?");
-					String lastName = INPUT.getStringInput();
-					HOTEL_RESOURCE.createCustomer(emailCus, firstName, lastName);
+					try {
+						System.out.println("Enter email formatted as something@domain.com");
+						String emailCus = INPUT.getStringInput();
+						System.out.println("What is your first name?");
+						String firstName = INPUT.getStringInput();
+						System.out.println("What is your last name?");
+						String lastName = INPUT.getStringInput();
+						HOTEL_RESOURCE.createCustomer(emailCus, firstName, lastName);
+					} catch (IllegalArgumentException e) {
+						System.out.println("Email is invalid. Please try again. Email should be formatted as something@domain.com");
+					}
 				}
 				case 4 -> AdminMenu.adminMenu();
 				case 5 -> System.exit(0);
