@@ -10,6 +10,7 @@ import java.util.*;
 
 public class ReservationService {
 	private static final ReservationService RESERVATION_SERVICE = new ReservationService();
+	private static final int RECOMMENDED_DAY = 7;
 	private final Map<String, Collection<Reservation>> reservationList = new HashMap<>();
 	private final Map<String, IRoom> roomList = new HashMap<>();
 
@@ -69,13 +70,13 @@ public class ReservationService {
 	 */
 	public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
 		List<IRoom> availableRooms = new ArrayList<>();
-		// Get all reservation
-		Collection<Reservation> reservations = getAllReservations();
 		// Get all the booked rooms in the given interval date
 		Set<IRoom> reservedRooms = new HashSet<>();
+		// Get all reservation
+		Collection<Reservation> reservations = getAllReservations();
 		for (Reservation r : reservations) {
 			try {
-				if (isValidationDate(r, checkInDate, checkOutDate)) {
+				if (!isValidationDate(r, checkInDate, checkOutDate)) {
 					reservedRooms.add(r.getIRoom());
 				}
 			} catch (ParseException e) {
@@ -85,13 +86,40 @@ public class ReservationService {
 
 		// Add the available room in list
 		Collection<IRoom> roomCollection = roomList.values();
-		for (IRoom r : roomCollection) {
-			if (!reservedRooms.contains(r)) {
-				availableRooms.add(r);
+		if (reservedRooms.size() == 0) {
+			availableRooms.addAll(roomCollection);
+		} else {
+			for (IRoom r : roomCollection) {
+				reservedRooms.forEach((res) -> {
+					if (!res.equals(r)) {
+						availableRooms.add(r);
+					}
+				});
 			}
 		}
 		availableRooms.forEach(System.out::println);
 		return availableRooms;
+	}
+
+
+	/**
+	 * Find the other rooms
+	 * @param checkIn Day after the checkInDate
+	 * @param checkOut After the checkOutDate
+	 * @return list of available rooms.
+	 */
+	public Collection<IRoom> findAlternativeRoom(Date checkIn, Date checkOut) {
+		Date checkInPlus = chooseAlterDate(checkIn);
+		Date checkOutPlus = chooseAlterDate(checkOut);
+		System.out.println("We have rooms from:" + checkInPlus + "to: " + checkOutPlus);
+		return findRooms(checkInPlus, checkOutPlus);
+	}
+
+	public Date chooseAlterDate(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, RECOMMENDED_DAY);
+		return cal.getTime();
 	}
 
 	/**
@@ -139,7 +167,6 @@ public class ReservationService {
 		Date checkOut = simpleDateFormat.parse(cod);
 		Date rIn = simpleDateFormat.parse(rCid);
 		Date rOut = simpleDateFormat.parse(rCod);
-
-		return (rIn.after(checkIn) && rOut.before(checkOut));
+		return (rOut.before(checkIn) || rIn.after(checkOut));
 	}
 }

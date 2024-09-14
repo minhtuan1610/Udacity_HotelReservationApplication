@@ -49,3 +49,7 @@ Customer Requirements
 - A unique email for the customer. RegEx is used to check that the email is in the correct format (i.e.,
   name@domain.com(opens in a new tab)).
 - A first name and last name.
+
+References:
+
+- https://www.technofundo.com/tech/java/equalhash.html

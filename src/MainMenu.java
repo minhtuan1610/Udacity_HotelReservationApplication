@@ -1,9 +1,13 @@
 import api.DataInput;
 import api.HotelResource;
 import model.customer.Customer;
+import model.room.IRoom;
 
 import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.InputMismatchException;
 
 
 public class MainMenu {
@@ -32,24 +36,36 @@ public class MainMenu {
 							System.out.println("Wrong format date");
 						}
 					}
-					HOTEL_RESOURCE.findARoom(checkIn, checkOut);
-					// Reserve a room
-					System.out.println("Would you like to book a room? (Please type y/n)");
-					String text = INPUT.getStringInput();
-					while (!text.equalsIgnoreCase("y") && !text.equalsIgnoreCase("n")) {
+					Collection<IRoom> roomFound = HOTEL_RESOURCE.findARoom(checkIn, checkOut);
+					Collection<IRoom> roomAlterFound = roomFound.isEmpty() ? HOTEL_RESOURCE.findAlternativeRoom(checkIn, checkOut) : null;
+
+					if (!roomFound.isEmpty() || !roomAlterFound.isEmpty()) {
+						// Reserve a room
 						System.out.println("Would you like to book a room? (Please type y/n)");
-						text = INPUT.getStringInput();
-					}
-					if (text.equalsIgnoreCase("y")) {
-						try {
-							System.out.println("Enter your email:");
-							String email = INPUT.getStringInput();
-							System.out.println("Choose room number:");
-							HOTEL_RESOURCE.bookARoom(email, HOTEL_RESOURCE.getRoom(INPUT.getStringInput()), checkIn, checkOut);
-						} catch (IllegalArgumentException | NullPointerException e) {
-							System.out.println("Email is invalid or non-exist. Please try again. Email should be formatted as something@domain.com");
+						String text = INPUT.getStringInput();
+						while (!text.equalsIgnoreCase("y") && !text.equalsIgnoreCase("n")) {
+							System.out.println("Would you like to book a room? (Please type y/n)");
+							text = INPUT.getStringInput();
 						}
+						if (text.equalsIgnoreCase("y")) {
+							try {
+								System.out.println("Enter your email:");
+								String email = INPUT.getStringInput();
+								System.out.println("Choose room number:");
+								if (roomFound.isEmpty()) {
+									HOTEL_RESOURCE.bookARoom(email, HOTEL_RESOURCE.getRoom(INPUT.getStringInput()),
+											HOTEL_RESOURCE.chooseAlterDate(checkIn), HOTEL_RESOURCE.chooseAlterDate(checkOut));
+								} else {
+									HOTEL_RESOURCE.bookARoom(email, HOTEL_RESOURCE.getRoom(INPUT.getStringInput()), checkIn, checkOut);
+								}
+							} catch (IllegalArgumentException | NullPointerException e) {
+								System.out.println("Email is invalid or non-exist. Please try again. Email should be formatted as something@domain.com");
+							}
+						}
+					} else {
+						System.out.println("There is no room in this time.");
 					}
+
 				}
 				case 2 -> {
 					// See my reservations

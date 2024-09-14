@@ -1,5 +1,7 @@
 package model.room;
 
+import java.util.Objects;
+
 public class Room implements IRoom {
 	private String roomNumber;
 	private Double price;
@@ -48,6 +50,34 @@ public class Room implements IRoom {
 	@Override
 	public boolean isFree() {
 		return price.equals(0.0);
+	}
+
+
+	/**
+	 *
+	 * @param obj object to compare
+	 * @return true/false if object is equal or not
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		// Ensures that it will return false if the argument is a subclass of a class compared.
+		if (obj == null || (obj.getClass() != this.getClass())) {
+			return false;
+		}
+		Room room = (Room) obj;
+		return roomNumber.equals(room.roomNumber);
+	}
+
+	/**
+	 *
+	 * @return the hash code of room number
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(roomNumber);
 	}
 
 	@Override
