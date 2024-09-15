@@ -11,7 +11,11 @@ import java.util.*;
 public class ReservationService {
 	private static final ReservationService RESERVATION_SERVICE = new ReservationService();
 	private static final int RECOMMENDED_DAY = 7;
+
+	// Key: email
 	private final Map<String, Collection<Reservation>> reservationList = new HashMap<>();
+
+	// Key: room number
 	private final Map<String, IRoom> roomList = new HashMap<>();
 
 	private ReservationService() {
@@ -27,7 +31,7 @@ public class ReservationService {
 	 * @param iRoom Instance of Room
 	 */
 	public void addRoom(IRoom iRoom) {
-		roomList.put(iRoom.getRoomNumber(), iRoom);
+		roomList.putIfAbsent(iRoom.getRoomNumber(), iRoom);
 	}
 
 	/**
@@ -158,7 +162,7 @@ public class ReservationService {
 	}
 
 	private boolean isValidationDate(Reservation reservation, Date checkInDate, Date checkOutDate) throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		String cid = simpleDateFormat.format(checkInDate);
 		String cod = simpleDateFormat.format(checkOutDate);
 		String rCid = simpleDateFormat.format(reservation.getCheckInDate());
