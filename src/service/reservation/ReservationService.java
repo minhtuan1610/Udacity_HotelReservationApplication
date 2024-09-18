@@ -162,6 +162,11 @@ public class ReservationService {
 	}
 
 	private boolean isValidationDate(Reservation reservation, Date checkInDate, Date checkOutDate) throws ParseException {
+//		// Unreasonable date: checkIn is later than checkOut
+//		if (checkInDate.after(checkOutDate)) {
+//			return false;
+//		}
+
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		String cid = simpleDateFormat.format(checkInDate);
 		String cod = simpleDateFormat.format(checkOutDate);
@@ -171,6 +176,17 @@ public class ReservationService {
 		Date checkOut = simpleDateFormat.parse(cod);
 		Date rIn = simpleDateFormat.parse(rCid);
 		Date rOut = simpleDateFormat.parse(rCod);
+
+//		// Lower Bound & Upper Bound
+//		if (reservation.getCheckInDate().equals(checkOutDate) || reservation.getCheckOutDate().equals(checkInDate)) {
+//			return false;
+//		}
+//		// Inclusive Bound
+//		if (reservation.getCheckInDate().before(checkInDate)) {
+//			return false;
+//		}
+
+
 		return (rOut.before(checkIn) || rIn.after(checkOut));
 	}
 }
