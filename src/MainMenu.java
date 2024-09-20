@@ -81,7 +81,7 @@ public class MainMenu {
                     try {
                         System.out.println("Enter your email:");
                         String eCus = INPUT.getStringInput();
-                        HOTEL_RESOURCE.getCustomerReservations(eCus);
+                        HOTEL_RESOURCE.listCustomerReservation(eCus);
                     } catch (IllegalArgumentException | NullPointerException e) {
                         System.out.println("Email is invalid or non-exist. Please try again. Email should be formatted as something@domain.com");
                     }
