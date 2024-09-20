@@ -5,12 +5,14 @@ import model.room.IRoom;
 import service.customers.CustomerService;
 import service.reservation.ReservationService;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AdminResource {
     private static final AdminResource ADMIN_RESOURCE = new AdminResource();
+    private static final String REGEX_ROOM = "^\\d+$";
     private final CustomerService customerService = CustomerService.getCustomerServiceInstance();
     private final ReservationService reservationService = ReservationService.getReservationServiceInstance();
 
@@ -39,5 +41,11 @@ public class AdminResource {
 
     public void displayAllReservations() {
         reservationService.printAllReservation();
+    }
+
+    public boolean isValidRoomNumber(String roomNumber) {
+        Pattern pattern = Pattern.compile(REGEX_ROOM);
+        Matcher matcher = pattern.matcher(roomNumber);
+        return matcher.matches();
     }
 }

@@ -25,8 +25,12 @@ public class AdminMenu {
                 case 3 -> ADMIN_RESOURCE.displayAllReservations(); //See all Reservations
                 case 4 -> {
                     do {
-                        System.out.println("Enter room number");
-                        String rNo = String.valueOf(INPUT.getIntInput());
+                        System.out.println("Enter room number:");
+                        String rNo = INPUT.getStringInput();
+                        while (!ADMIN_RESOURCE.isValidRoomNumber(rNo)) {
+                            System.out.println("Room number is positive integer. Try again:");
+                            rNo = INPUT.getStringInput();
+                        }
                         boolean validPri = false;
                         Double rPri = 0.0;
                         while (!validPri) {
@@ -38,7 +42,6 @@ public class AdminMenu {
                             } catch (InputMismatchException e) {
                                 System.out.println("Price is invalid. Please try again!");
                             }
-
                         }
 
                         System.out.println("Enter room type: 1 for single bed, 2 for double bed");
@@ -65,7 +68,6 @@ public class AdminMenu {
                             choiceAdmin = -1;
                         }
                     } while (choiceAdmin == 4);
-
                 }
                 case 5 -> MainMenu.mainMenu();
             }

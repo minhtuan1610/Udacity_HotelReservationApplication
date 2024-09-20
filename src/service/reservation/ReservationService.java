@@ -40,6 +40,9 @@ public class ReservationService {
      * @return the room number
      */
     public IRoom getARoom(String roomID) {
+        if (roomList.get(roomID) == null) {
+            return null;
+        }
         return roomList.get(roomID);
     }
 
@@ -168,4 +171,6 @@ public class ReservationService {
         }
         return (rOut.before(checkInDate) || rIn.after(checkOutDate));
     }
+
+
 }
